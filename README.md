@@ -339,6 +339,58 @@ print(f'Suma con latitud de referencia: {sum_latitude} grados')
 print(f'Resta con latitud de referencia: {diff_latitude} grados')
 ```
 
+## Código completo
+
+```python
+import math
+
+def km_to_latitude(kilometers, is_north):
+    earth_radius_km = 6371  # Radio promedio de la Tierra en kilómetros
+
+    # Calcular los grados decimales
+    decimal_degrees = kilometers / earth_radius_km
+    if not is_north:
+        decimal_degrees = -decimal_degrees
+
+    # Convertir de radianes a grados
+    degrees = math.degrees(decimal_degrees)
+
+    # Calcular grados, minutos y segundos
+    degrees_int = int(degrees)
+    decimal_minutes = (degrees - degrees_int) * 60
+    minutes = int(decimal_minutes)
+    seconds = (decimal_minutes - minutes) * 60
+
+    return degrees, minutes, seconds, decimal_degrees
+
+# Solicitar al usuario la distancia en kilómetros
+distance_in_km = float(input("Ingresa la distancia en kilómetros: "))
+
+# Preguntar si la latitud es norte o sur
+latitude_direction = input("Especifica 'N' para norte o 'S' para sur: ").upper()
+
+if latitude_direction not in ['N', 'S']:
+    print("Dirección de latitud no válida. Debe ser 'N' o 'S.")
+else:
+    is_north = (latitude_direction == 'N')
+
+    degrees, minutes, seconds, decimal_degrees = km_to_latitude(distance_in_km, is_north)
+
+    # Imprimir los resultados
+    print(f'Latitud en grados, minutos y segundos: {degrees}° {minutes}\' {seconds}" {latitude_direction}')
+    print(f'Latitud en grados decimales: {decimal_degrees} grados')
+
+    # Solicitar al usuario la latitud de referencia en grados
+    reference_latitude = float(input("Ingresa la latitud de referencia en grados: "))
+
+    # Calcular la suma y la resta
+    sum_latitude = reference_latitude + degrees
+    diff_latitude = reference_latitude - degrees
+
+    print(f'Suma con latitud de referencia: {sum_latitude} grados')
+    print(f'Resta con latitud de referencia: {diff_latitude} grados')
+```
+
 ### Salida
 
 Ejemplo de salida usando una distancia de 90 km y una latitud de 21.4 Norte:
